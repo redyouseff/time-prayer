@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prayer Times EG</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+            background-image: url(./pexels-memet-durmus-210746446-11978393.jpg);
+            background-size: cover;
+            background-position: center;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        #city-input {
+            margin-bottom: 20px;
+        }
+        select {
+            padding: 10px;
+            font-size: 1em;
+            width: 320px;
+            max-width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .prayer-time {
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 10px 0;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            opacity: 0.9;
+            display: flex;
+            justify-content: space-between;
+        }
+        .prayer-name {
+            font-size: 1.5em;
+            color: #2980b9;
+        }
+        .time {
+            font-size: 1.2em;
+            color: #34495e;
+        }
+        #city {
+            color: #2980b9;
+            height: 40px;
+            text-align: center;
+        }
+        #title {
+            color: #053aa5;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="title">EGYPT</h1>
+
+    <div id="city-input">
+        <select id="city" name="city">
+            <option value="Al Jīzah">Helwan</option>
+            <option value="Al Ismā'īlīyah">Nasr City</option>
+            <option value="Al Iskandarīyah">Maadi</option>
+            <option value="Al Gharbīyah">Dokki</option>
+            <option value="Al Fayyūm">Zamalek</option>
+            <option value="	Al Buḩayrah">New Cairo</option>
+            <option value="Al Baḩr al Aḩmar">Giza</option>
+            <option value="Ad Daqahlīyah">Shubra</option>
+        </select>
+        <button onclick="getPrayerTimes()">Get Prayer Times</button>
+    </div>
+
+    <div id="prayer-times">
+        <!-- Pre-defined prayer times elements -->
+        <div class="prayer-time">
+            <div class="prayer-name">Fajr</div>
+            <div class="time" id="fajr-time"></div>
+        </div>
+        <div class="prayer-time">
+            <div class="prayer-name">Sunrise</div>
+            <div class="time" id="sunrise-time"></div>
+        </div>
+        <div class="prayer-time">
+            <div class="prayer-name">Dhuhr</div>
+            <div class="time" id="dhuhr-time"></div>
+        </div>
+        <div class="prayer-time">
+            <div class="prayer-name">Asr</div>
+            <div class="time" id="asr-time"></div>
+        </div>
+        <div class="prayer-time">
+            <div class="prayer-name">Sunset</div>
+            <div class="time" id="sunset-time"></div>
+        </div>
+        <div class="prayer-time">
+            <div class="prayer-name">Maghrib</div>
+            <div class="time" id="maghrib-time"></div>
+        </div>
+        <div class="prayer-time">
+            <div class="prayer-name">Isha</div>
+            <div class="time" id="isha-time"></div>
+        </div>
+        <div class="prayer-time">
+            <div class="prayer-name">Imsak</div>
+            <div class="time" id="imsak-time"></div>
+        </div>
+        <div class="prayer-time">
+            <div class="prayer-name">Midnight</div>
+            <div class="time" id="midnight-time"></div>
+        </div>
+        <div class="prayer-time">
+            <div class="prayer-name">First Third</div>
+            <div class="time" id="firstthird-time"></div>
+        </div>
+        <div class="prayer-time">
+            <div class="prayer-name">Last Third</div>
+            <div class="time" id="lastthird-time"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        function getPrayerTimes() {
+            const city = document.getElementById("city").value || 'Dakahlia';
+            axios.get(`https://api.aladhan.com/v1/timingsByCity?city=${city}&country=Egypt`)
+                .then(response => {
+                    console.log(response.data.data.timings)
+                    const timings = response.data.data.timings;
+
+                   
+                    document.getElementById('fajr-time').innerHTML = timings.Fajr;
+                    document.getElementById('sunrise-time').innerHTML = timings.Sunrise;
+                    document.getElementById('dhuhr-time').innerHTML = timings.Dhuhr;
+                    document.getElementById('asr-time').innerHTML = timings.Asr;
+                    document.getElementById('sunset-time').innerHTML = timings.Sunset;
+                    document.getElementById('maghrib-time').innerHTML = timings.Maghrib;
+                    document.getElementById('isha-time').innerHTML = timings.Isha;
+                    document.getElementById('imsak-time').innerHTML = timings.Imsak;
+                    document.getElementById('midnight-time').innerHTML = timings.Midnight;
+                    document.getElementById('firstthird-time').innerHTML = timings.Firstthird;
+                    document.getElementById('lastthird-time').innerHTML = timings.Lastthird;
+                })
+                .catch(error => console.error('Error fetching prayer times:', error));
+        }
+  
+            getPrayerTimes();
+ 
+    </script>
+</body>
+</html>
